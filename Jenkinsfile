@@ -5,7 +5,7 @@ pipeline {
             args '-p 3000:3000'
         }
     }
-    tools {dependency-check 7.3.0}
+    tools {dependency-check}
     stages {
         stage('Build') {
             steps {
