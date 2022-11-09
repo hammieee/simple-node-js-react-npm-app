@@ -5,9 +5,7 @@ pipeline {
             args '-p 3000:3000'
         }
     }
-	tools {
-		dependency-checker OWASPcheck
-	}
+	tools {OWASPcheck}
     stages {
         stage('Build') {
             steps {
