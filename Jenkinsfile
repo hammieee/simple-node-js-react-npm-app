@@ -5,7 +5,6 @@ pipeline {
             args '-p 3000:3000'
         }
     }
-    tools {dependency-check}
     stages {
         stage('Build') {
             steps {
@@ -26,7 +25,7 @@ pipeline {
         }
         stage('OWASP DependencyCheck') {
 		steps {
-			dependencyCheck additionalArguments: '--format HTML --format XML', odcInstallation: 'Default'
+			dependency-check additionalArguments: '--format HTML --format XML', odcInstallation: 'Default'
 		}
 		post {
 	            success {
