@@ -26,6 +26,7 @@ pipeline {
         stage('OWASP DependencyCheck') {
 		steps {
 			dir('/var/jenkins_home/tools/org.jenkinsci.plugins.DependencyCheck.tools.DependencyCheckInstallation/') {
+			    sh 'apt update && apt install wget -y'
 			    sh 'wget https://github.com/jeremylong/DependencyCheck/releases/download/v7.3.0/dependency-check-7.3.0-release.zip && mv dependency-check-7.3.0-release.zip Default.zip && unzip Default.zip'
 			    sh 'ls -la'
 			    sh 'ls -la Default'
