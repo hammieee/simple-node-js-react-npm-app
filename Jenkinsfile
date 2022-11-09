@@ -5,7 +5,7 @@ pipeline {
             args '-p 3000:3000'
         }
     }
-    tools {Dependency-Check "OWASPcheck"}
+    tools {Dependency-Check}
     stages {
         stage('Build') {
             steps {
@@ -22,6 +22,16 @@ pipeline {
                 sh './jenkins/scripts/deliver.sh' 
                 input message: 'Finished using the web site? (Click "Proceed" to continue)' 
                 sh './jenkins/scripts/kill.sh' 
+            }
+        }
+        stage('OWASP DependencyCheck') {
+			steps {
+				dependencyCheck additionalArguments: '--format HTML --format XML', odcInstallation: 'Default'
+			}
+		}
+        post {
+            success {
+                dependencyCheckPublisher pattern: 'dependency-check-report.xml'
             }
         }
     }
