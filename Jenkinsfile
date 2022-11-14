@@ -16,7 +16,7 @@ agent any
     }
     post {
   always {
-  recordIssues enabledForFailure: true, tool: sonarQube
+  recordIssues enabledForFailure: true, tool: sonarQube()
   }
   }
 }
