@@ -1,5 +1,6 @@
 pipeline {
 agent any
+    tools {sonarQube "SonarQube"}
     stages {
         stage('Code Quality Check via SonarQube') {
  
