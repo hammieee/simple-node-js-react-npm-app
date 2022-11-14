@@ -1,22 +1,35 @@
 pipeline {
-    agent {
-        docker {
-            image 'node:lts-buster-slim'
-            args '-p 3000:3000'
-        }
-    }
+    agent any
     stages {
         stage('Build') {
+	    agent {
+		docker {
+		    image 'node:lts-buster-slim'
+		    args '-p 3000:3000'
+		}
+	    }
             steps {
                 sh 'npm install'
             }
         }
         stage('Test') {
+	    agent {
+		docker {
+		    image 'node:lts-buster-slim'
+		    args '-p 3000:3000'
+		}
+	    }
             steps {
                 sh './jenkins/scripts/test.sh'
             }
         }
-        stage('Deliver') { 
+        stage('Deliver') {
+	    agent {
+		docker {
+		    image 'node:lts-buster-slim'
+		    args '-p 3000:3000'
+		}
+	    }
             steps {
                 sh './jenkins/scripts/deliver.sh' 
                 input message: 'Finished using the web site? (Click "Proceed" to continue)' 
@@ -25,18 +38,22 @@ pipeline {
         }
         stage('OWASP DependencyCheck') {
 		steps {
-			dir('/var/jenkins_home/tools/org.jenkinsci.plugins.DependencyCheck.tools.DependencyCheckInstallation/') {
-			    sh 'apt update && apt install wget -y'
-			    sh 'wget https://github.com/jeremylong/DependencyCheck/releases/download/v7.3.0/dependency-check-7.3.0-release.zip && mv dependency-check-7.3.0-release.zip Default.zip && unzip Default.zip'
-			    sh 'ls -la'
-			    sh 'ls -la Default'
-			}
 			dependencyCheck additionalArguments: '--format HTML --format XML', odcInstallation: 'Default'
 		}
 		post {
 	            success {
 			dependencyCheckPublisher pattern: 'dependency-check-report.xml'
 		    }
+		}
+	}
+	stage('Code Quality Check via SonarQube') {
+		steps {
+			script {
+				def scannerHome = tool 'sonar';
+				withSonarQubeEnv('sonar') {
+					sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=React -Dsonar.sources=."
+				}
+			}
 		}
 	}
     }
