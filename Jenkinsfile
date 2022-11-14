@@ -47,6 +47,12 @@ pipeline {
 		}
 	}
 	stage('Code Quality Check via SonarQube') {
+		agent {
+			docker {
+			    image 'node:lts-buster-slim'
+			    args '-p 3000:3000'
+			}
+		    }
 		steps {
 			script {
 				def scannerHome = tool 'SonarQube';
