@@ -47,6 +47,7 @@ pipeline {
 		}
 	}
 	stage('Code Quality Check via SonarQube') {
+		agent any
 		steps {
 			script {
 				def scannerHome = tool 'SonarQube';
