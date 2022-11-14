@@ -56,12 +56,13 @@ pipeline {
 				}
 			}
 		}
-		post {
+		
+	}
+    }
+	post {
 			always {
 				recordIssues enabledForFailure: true, tool: SonarQube()
 			}
 		}
-	}
-    }
 }
 
