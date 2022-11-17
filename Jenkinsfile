@@ -11,7 +11,7 @@ steps {
 script {
 def scannerHome = tool 'SonarQube';
 withSonarQubeEnv('SonarQube') {
-sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=React -Dsonar.sources=."
+sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=WORK -Dsonar.sources=."
 }
 }
 }
