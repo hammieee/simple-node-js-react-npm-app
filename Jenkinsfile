@@ -17,9 +17,5 @@ sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=WORK -Dsonar.sources=."
 }
 }
 }
-post {
-always {
-recordIssues enabledForFailure: true, tool: sonarQube()
-}
-}
+
 }
